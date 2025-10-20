@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium User Agent Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #554fd8;
+            --secondary: #FF6584;
+            --success: #36D1DC;
+            --warning: #FFB347;
+            --error: #FF416C;
+            --dark: #2D3047;
+            --light: #F8F9FA;
+            --gray: #8A8D93;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.15);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e1e5ee;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: white;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+            outline: none;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 30px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(108, 99, 255, 0.2);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            box-shadow: 0 4px 6px rgba(54, 209, 220, 0.2);
+        }
+
+        .btn-success:hover {
+            background-color: #2bc4d0;
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            box-shadow: 0 4px 6px rgba(255, 179, 71, 0.2);
+        }
+
+        .btn-warning:hover {
+            background-color: #ffa629;
+        }
+
+        .btn-error {
+            background-color: var(--error);
+            box-shadow: 0 4px 6px rgba(255, 65, 108, 0.2);
+        }
+
+        .btn-error:hover {
+            background-color: #ff2a5f;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .btn-group .btn {
+            flex: 1;
+            padding: 18px;
+            font-size: 1.1rem;
+        }
+
+        .selected {
+            background-color: var(--success) !important;
+            pointer-events: none;
+            box-shadow: 0 4px 6px rgba(54, 209, 220, 0.3) !important;
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 5px solid var(--primary);
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            line-height: 1.5;
+            transition: var(--transition);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .result-box.error {
+            border-left-color: var(--error);
+            background: linear-gradient(135deg, #ffe8ec 0%, #ffd6de 100%);
+        }
+
+        .error {
+            color: var(--error);
+            margin-top: 10px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .success {
+            color: var(--success);
+            margin-top: 10px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(108, 99, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(108, 99, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(108, 99, 255, 0); }
+        }
+
+        .device-icon {
+            font-size: 24px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--gray);
+            font-size: 14px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .copy-btn {
+            margin-top: 15px;
+            background-color: var(--gray);
+            padding: 12px 24px;
+            font-size: 14px;
+        }
+
+        .copy-btn:hover {
+            background-color: #7a7d85;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 25px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-mobile-alt"></i> User Agent Generator</h1>
+            <p>Generate device-specific user agents for testing and development</p>
+        </div>
+        
+        <div class="content">
+            <!-- Access Token Section -->
+            <div id="accessSection" class="fade-in">
+                <div class="form-group">
+                    <label for="accessToken"><i class="fas fa-key"></i> Enter Your Access Token</label>
+                    <div class="input-container">
+                        <input type="text" id="accessToken" placeholder="Type Your Access Token to continue">
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+                    <button id="submitToken" class="btn pulse" style="margin-top: 20px; width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> Submit Token
+                    </button>
+                    <div id="tokenError" class="error hidden">
+                        <i class="fas fa-exclamation-circle"></i> Invalid access token. Please try again.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content (Hidden Initially) -->
+            <div id="mainContent" class="hidden">
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="samsungCount">200</div>
+                        <div class="stat-label">Samsung Agents</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="pixelCount">100</div>
+                        <div class="stat-label">Pixel Agents</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="generatedCount">0</div>
+                        <div class="stat-label">Generated</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-mobile"></i> Select Device Type</label>
+                    <div class="btn-group">
+                        <button id="samsungBtn" class="btn">
+                            <i class="fab fa-android device-icon"></i> Samsung
+                        </button>
+                        <button id="pixelBtn" class="btn">
+                            <i class="fab fa-google device-icon"></i> Google Pixel
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="selectionInfo" class="success hidden">
+                    <!-- Selection message will appear here -->
+                </div>
+                
+                <div id="inputSection" class="hidden fade-in">
+                    <div class="form-group">
+                        <label for="indexNumber"><i class="fas fa-list-ol"></i> Enter Index Number</label>
+                        <div class="input-container">
+                            <input type="number" id="indexNumber" placeholder="Enter a number between Samsung: 1-200 / Google Pixel: 1-100">
+                            <i class="fas fa-hashtag input-icon"></i>
+                        </div>
+                        <button id="generateBtn" class="btn btn-success" style="margin-top: 20px; width: 100%;">
+                            <i class="fas fa-bolt"></i> Generate User Agent
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="resultSection" class="hidden fade-in">
+                    <div class="form-group">
+                        <label><i class="fas fa-code"></i> Generated User Agent</label>
+                        <div id="userAgentResult" class="result-box">
+                            <!-- User agent will appear here -->
+                        </div>
+                        <button id="copyBtn" class="btn copy-btn">
+                            <i class="fas fa-copy"></i> Copy to Clipboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>User Agent Generator &copy; 2025 | 3O Adertizing (PVT ) LTD.</p>
+        </div>
+    </div>
+
+    <div class="notification" id="copyNotification">
+        <i class="fas fa-check-circle"></i> Copied to clipboard!
+    </div>
+
+    <script>
+        // User agent arrays - easily modifiable
+        const samsungUserAgents = [
+           
+
+
+
+
+
+
+"Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.43 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.32 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.101 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F956B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.68 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F946B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.98 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.55 Mobile Safari/537.36",
+" Mozilla/5.0 (Linux; Android 14; SM-A546B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.76 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M536B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.112 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A157B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.41 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A336B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.87 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.0 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.118 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.83 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-S901B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.24 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A556B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.59 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A536B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.91 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.45 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.45 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A156B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.61 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F956B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.95 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-F936B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.30 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S928U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.4 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.5 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.105 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S901B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.70 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-G781B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.48 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A146B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.89 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.88 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.110 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A256B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.99 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-A556B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.33 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F956B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.79 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A156B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.2 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A336B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.51 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.8 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.91 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.85 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A536B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.44 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-G781B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.97 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.115 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.6 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S901B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.108 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A256B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.81 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F956B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.104 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A146B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.63 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.120 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.92 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A556B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.77 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-G781B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.93 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.96 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A336B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.102 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.12 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A156B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.65 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.113 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-S901B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.39 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F956B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.89 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.107 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.58 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A536B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.49 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A146B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.94 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.72 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A556B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.103 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.117 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A336B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.56 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.15 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F956B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.111 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A156B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.86 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.74 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-G781B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.60 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-F936B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.100 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.94 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.119 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S901B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.80 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A256B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.106 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A146B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.69 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.97 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F956B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.90 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A536B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.96 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.93 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A556B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.82 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A336B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.109 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.20 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A156B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.78 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.114 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-G781B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.64 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-F711B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.36 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.95 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.84 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F956B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.116 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S901B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.75 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A256B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.87 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A146B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.92 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.10 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A536B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.53 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.7 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A556B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.71 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F946B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.66 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S916B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.90 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-E156B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.42 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-B146B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.57 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S921B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.99 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926U1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.121 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-A137F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.46 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F741B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.3 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A245F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.62 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S918U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.101 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M526BR) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.122 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-E256B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.54 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.11 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A546E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.67 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F946U1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.123 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S9110) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.73 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-M225FV) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.40 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A336E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.9 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926W) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.98 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F731U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.124 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A157F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.55 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S901E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.102 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M336B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.13 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A146P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.58 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S9280) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.16 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F9460) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.103 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A5360) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.125 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S916U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.76 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-A235F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.43 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M536S) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.14 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A346E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.79 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S927B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.104 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F700F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.126 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A256E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.68 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S9010) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.17 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M526B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.80 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A156E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.59 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.18 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F946C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.105 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A336N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.127 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S9180) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.81 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-F7110) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.47 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M336K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.19 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A5460) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.82 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S9260) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.106 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F7310) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.128 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A265F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.70 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S901U1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.21 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M536L) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.83 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A157G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.61 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.22 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F946N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.107 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A3360) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.129 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S918N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.84 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-A136B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.50 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M336L) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.23 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A546U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.85 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S927U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.108 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F736B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.130 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A267F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.72 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S901W) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.24 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M536K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.86 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A167F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.63 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.25 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F946B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.109 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A336B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.131 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.87 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-F707B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.52 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M336M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.26 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A546N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.88 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S911U1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.110 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F721U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.132 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A346B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.74 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S901N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.27 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M536B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.89 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A136U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.65 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.28 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F946U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.111 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A336L) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.133 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S918C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.90 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-A235U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.53 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M336N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.29 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A546W) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.91 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S926N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.112 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F736U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.134 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A266B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.76 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S901B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.30 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M536N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.92 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A156B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.67 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.31 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F946W) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.113 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A336K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.135 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S918E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.93 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; SM-F916B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.56 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M336B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.32 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A546B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.94 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.114 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F721B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.136 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A3460) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.78 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-S901U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.33 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-M536U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.95 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-A136B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.69 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; SM-S928I) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.34 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; SM-F9460) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.115 Mobile Safari/537.36",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ];
+
+        const pixelUserAgents = [
+           
+
+
+
+"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.43 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.43 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.32 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.32 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.101 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.101 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.68 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.98 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel Fold) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.55 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.76 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.112 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 4a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.41 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 4a (5G)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.87 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.0 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.1 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.118 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.83 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.24 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.59 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 5a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.91 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.45 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.45 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.61 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel Fold) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.95 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; Pixel 4 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.30 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.4 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.5 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.105 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.70 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.48 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 4a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.89 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.88 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.110 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.99 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; Pixel 6a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.33 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel Fold) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.79 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.2 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 4a (5G)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.51 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.8 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.91 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.85 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 5a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.44 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; Pixel 4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.97 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.115 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.6 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.108 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.81 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel Fold) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.104 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 4a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.63 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.120 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.92 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.77 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.93 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.96 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 4a (5G)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.102 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.12 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.65 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.113 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.39 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel Fold) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.89 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.107 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.58 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 5a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.49 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 4a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.94 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.72 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.103 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.117 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 4a (5G)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.56 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.15 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel Fold) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.111 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.86 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.74 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.60 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; Pixel 4 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.100 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.94 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.119 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.80 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.106 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 4a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.69 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.97 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel Fold) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.90 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 5a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.96 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.93 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.82 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 4a (5G)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.109 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 15; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.20 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.78 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.114 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.64 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 13; Pixel 4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.36 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.95 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.84 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel Fold) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.116 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.75 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.87 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 4a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.92 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.10 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 5a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.53 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6812.7 Mobile Safari/537.36",
+"Mozilla/5.0 (Linux; Android 14; Pixel 6a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.71 Mobile Safari/537.36",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ];
+
+        // DOM Elements
+        const accessSection = document.getElementById('accessSection');
+        const mainContent = document.getElementById('mainContent');
+        const submitTokenBtn = document.getElementById('submitToken');
+        const tokenInput = document.getElementById('accessToken');
+        const tokenError = document.getElementById('tokenError');
+        const samsungBtn = document.getElementById('samsungBtn');
+        const pixelBtn = document.getElementById('pixelBtn');
+        const selectionInfo = document.getElementById('selectionInfo');
+        const inputSection = document.getElementById('inputSection');
+        const indexInput = document.getElementById('indexNumber');
+        const generateBtn = document.getElementById('generateBtn');
+        const resultSection = document.getElementById('resultSection');
+        const userAgentResult = document.getElementById('userAgentResult');
+        const copyBtn = document.getElementById('copyBtn');
+        const copyNotification = document.getElementById('copyNotification');
+        const samsungCount = document.getElementById('samsungCount');
+        const pixelCount = document.getElementById('pixelCount');
+        const generatedCount = document.getElementById('generatedCount');
+
+        // Variables to track state
+        let selectedDevice = null;
+        let currentUserAgents = [];
+        let generatedAgents = 0;
+
+        // Initialize stats
+        samsungCount.textContent = samsungUserAgents.length;
+        pixelCount.textContent = pixelUserAgents.length;
+
+        // Event Listeners
+        submitTokenBtn.addEventListener('click', validateAccessToken);
+        tokenInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                validateAccessToken();
+            }
+        });
+
+        samsungBtn.addEventListener('click', function() {
+            selectDevice('Samsung', samsungUserAgents);
+        });
+
+        pixelBtn.addEventListener('click', function() {
+            selectDevice('Google Pixel', pixelUserAgents);
+        });
+
+        generateBtn.addEventListener('click', generateUserAgent);
+        indexInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateUserAgent();
+            }
+        });
+
+        copyBtn.addEventListener('click', copyToClipboard);
+
+        // Functions
+        function validateAccessToken() {
+            const token = tokenInput.value.trim();
+            
+            if (token === 'Admin') {
+                // Correct token - show main content
+                accessSection.classList.add('hidden');
+                mainContent.classList.remove('hidden');
+                mainContent.classList.add('fade-in');
+                tokenError.classList.add('hidden');
+                
+                // Add animation effect
+                setTimeout(() => {
+                    mainContent.style.opacity = 1;
+                }, 10);
+            } else {
+                // Incorrect token - show error
+                tokenError.classList.remove('hidden');
+                tokenInput.focus();
+                
+                // Shake animation for error
+                tokenInput.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    tokenInput.style.animation = '';
+                }, 500);
+            }
+        }
+
+        function selectDevice(deviceName, userAgentsArray) {
+            // Reset previous selection
+            samsungBtn.classList.remove('selected');
+            pixelBtn.classList.remove('selected');
+            
+            // Set new selection
+            if (deviceName === 'Samsung') {
+                samsungBtn.classList.add('selected');
+            } else {
+                pixelBtn.classList.add('selected');
+            }
+            
+            // Update state
+            selectedDevice = deviceName;
+            currentUserAgents = userAgentsArray;
+            
+            // Show selection message
+            selectionInfo.innerHTML = `<i class="fas fa-check-circle"></i> Your Selected ${deviceName}`;
+            selectionInfo.classList.remove('hidden');
+            
+            // Show input section with animation
+            inputSection.classList.remove('hidden');
+            inputSection.classList.add('fade-in');
+            
+            // Hide result section if it was visible
+            resultSection.classList.add('hidden');
+            
+            // Reset index input
+            indexInput.value = '';
+            indexInput.focus();
+        }
+
+        function generateUserAgent() {
+            const index = parseInt(indexInput.value);
+            
+            // Validate input
+            if (isNaN(index) || index < 1 || index > currentUserAgents.length) {
+                userAgentResult.textContent = 'Invalid Index Number. Please enter a number between 1 and ' + currentUserAgents.length;
+                userAgentResult.classList.add('error');
+                resultSection.classList.remove('hidden');
+                resultSection.classList.add('fade-in');
+                return;
+            }
+            
+            // Get user agent (index is 1-based, array is 0-based)
+            const userAgent = currentUserAgents[index - 1];
+            
+            // Display result
+            userAgentResult.textContent = userAgent;
+            userAgentResult.classList.remove('error');
+            resultSection.classList.remove('hidden');
+            resultSection.classList.add('fade-in');
+            
+            // Update generated count
+            generatedAgents++;
+            generatedCount.textContent = generatedAgents;
+        }
+
+        function copyToClipboard() {
+            const userAgentText = userAgentResult.textContent;
+            
+            // Check if there's anything to copy
+            if (!userAgentText || userAgentText.includes('Invalid Index Number')) {
+                showNotification('Nothing to copy!', 'error');
+                return;
+            }
+            
+            // Create a temporary textarea element
+            const textArea = document.createElement('textarea');
+            textArea.value = userAgentText;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            
+            // Select and copy the text
+            textArea.select();
+            textArea.setSelectionRange(0, 99999); // For mobile devices
+            
+            try {
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                if (successful) {
+                    showNotification('Copied to clipboard!', 'success');
+                } else {
+                    showNotification('Failed to copy!', 'error');
+                }
+            } catch (err) {
+                document.body.removeChild(textArea);
+                showNotification('Failed to copy!', 'error');
+                console.error('Failed to copy: ', err);
+            }
+        }
+
+        function showNotification(message, type) {
+            copyNotification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+            copyNotification.style.backgroundColor = type === 'success' ? 'var(--success)' : 'var(--error)';
+            copyNotification.classList.add('show');
+            
+            // Hide notification after 2 seconds
+            setTimeout(() => {
+                copyNotification.classList.remove('show');
+            }, 2000);
+        }
+
+        // Add shake animation for errors
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
